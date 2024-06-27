@@ -155,6 +155,6 @@ def display_serie_gloss (gloss_list, video_df, vocabulary_list):
 #test funcion
 
 video_df, vocabulary_list = get_video_dataset()
-gloss_list_test=['go', 'play', 'football', 'have', 'fun']
+gloss_list_test=['gym', 'cry', 'football', 'have', 'fun']
 
 display_serie_gloss (gloss_list_test, video_df, vocabulary_list)
