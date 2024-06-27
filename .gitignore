@@ -163,4 +163,4 @@ cython_debug/
 
 # Local data
 data/raw_videos/
-data/raw_videos_mp4/
+data/video_landmarks

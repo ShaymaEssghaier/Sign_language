@@ -13,3 +13,10 @@ Install youtube-dl for downloading YouTube videos.(not useful if you dont add yo
 # Download raw videos.
 cd data
 python video_downloader.py
+
+# Generate landmarks from videos
+cd data
+pyton get_keypoints.py
+(this command will:
+- create a new folder in video_landmarks filled with video_id.json files for each videos,
+- update filtered_WLASL.csv dataset by adding a new column 'video_landmarks_path')
