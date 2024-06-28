@@ -249,9 +249,8 @@ def save_keypoints_to_json():
     ------
     .json file for all the dataset and up date dataset
     '''
-
-    filtered_WLASL_filepath = 'filtered_WLASL.csv'
-    data = pd.read_csv(filtered_WLASL_filepath, delimiter=';')
+    dataset_filepath = 'local_dataset'
+    data = pd.read_csv( dataset_filepath, dtype={'video_id': str})
 
     # Create video_landmarks folder if not exist
     directory = 'video_landmarks'
@@ -261,19 +260,15 @@ def save_keypoints_to_json():
     # Create json_file of landmark for each video of the dataset
     for _ , row in data.iterrows():
         video_path = os.path.join('..', row['video_path'])
-        video_id = str(row['video_id'])
+        video_id = row['video_id']
+        filepath = os.path.join('video_landmarks', video_id)
+        # check if .json file with video_id already exist in video_landmarks folder
+        if os.path.isfile(filepath):
+            continue
         #create .json file
         video_lm = get_video_landmarks(video_path)
-        filepath = os.path.join('video_landmarks', video_id)
         with open(filepath, 'w') as f:
             json.dump(video_lm, f)
-        # Update dataset with a new column video_landmarks_path
-        data['video_landmarks_path'] = filepath
-    
-    # overwrite dataset with updated dateset
-    data.to_csv('filtered_WLASL.csv', index=False)
 
-save_keypoints_to_json()
-
-
-
+if __name__ == '__main__':
+    save_keypoints_to_json()

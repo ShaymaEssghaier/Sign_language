@@ -2,7 +2,7 @@ import pandas as pd
 import os
 import cv2
 
-def get_video_dataset(dataset='data/filtered_WLASL.csv'):
+def get_video_dataset(dataset='data/local_dataset'):
     ''' 
     load video_dataset
     
@@ -17,7 +17,7 @@ def get_video_dataset(dataset='data/filtered_WLASL.csv'):
     '''
 
     filepath = os.path.join(dataset)
-    video_df = pd.read_csv(filepath, delimiter=';')
+    video_df = pd.read_csv(filepath, dtype={'video_id': str})
     vocabulary_list = video_df['gloss'].tolist()
 
     return video_df, vocabulary_list
@@ -41,7 +41,7 @@ def check_gloss_in_vocabulary(gloss, vocabulary_list):
     else:
         return False
     
-def get_video_path_from_gloss(gloss, video_df, vocabulary_list):
+def get_video_path_from_gloss(gloss, dataset, vocabulary_list):
 
     '''
     extract the video_path from the video matching with the gloss. Preferentialy for signer with signer_id 11 that made more video
@@ -54,7 +54,7 @@ def get_video_path_from_gloss(gloss, video_df, vocabulary_list):
     --------
     filepath: str
     '''
-    filtered_df_id_11 = video_df.loc[video_df['signer_id'] == 11] #signer_id with the maximum video in dataset real_dat.csv
+    filtered_df_id_11 = dataset.loc[video_df['signer_id'] == 11] #signer_id with the maximum video in dataset real_dat.csv
 
     if check_gloss_in_vocabulary(gloss, vocabulary_list):
         # select preferentialy a video from signer_id 11
@@ -62,18 +62,18 @@ def get_video_path_from_gloss(gloss, video_df, vocabulary_list):
             # display video
             video_path = filtered_df_id_11.loc[filtered_df_id_11['gloss'] == gloss, 'video_path'].values
         else:
-            video_path = video_df.loc[video_df['gloss'] == gloss, 'video_path'].values
+            video_path = dataset.loc[dataset['gloss'] == gloss, 'video_path'].values
     
         current_directory = os.getcwd()
         
         return os.path.join(current_directory, video_path[0]) #index 0 in case of the signer did several video for the same gloss
 
-def display_video_from_gloss(gloss, video_df, vocabulary_list):
+def display_video_from_gloss(gloss, dataset, vocabulary_list):
     '''
     display the video matching with the gloss
     '''
 
-    video_path = get_video_path_from_gloss(gloss, video_df, vocabulary_list)
+    video_path = get_video_path_from_gloss(gloss, dataset, vocabulary_list)
 
     # open video from video_path
     video_capture = cv2.VideoCapture(video_path)
@@ -137,7 +137,7 @@ def display_video_from_gloss(gloss, video_df, vocabulary_list):
     video_capture.release()
     #cv2.destroyAllWindows()
 
-def display_serie_gloss (gloss_list, video_df, vocabulary_list):
+def display_serie_gloss (gloss_list, dataset, vocabulary_list):
 
     '''
     display a continuity a serie of video, each video matching with a gloss
@@ -148,13 +148,13 @@ def display_serie_gloss (gloss_list, video_df, vocabulary_list):
             print(gloss)
             continue
 
-        display_video_from_gloss(gloss, video_df, vocabulary_list)
+        display_video_from_gloss(gloss, dataset, vocabulary_list)
     
     cv2.destroyAllWindows()
 
 #test funcion
 
-video_df, vocabulary_list = get_video_dataset()
+dataset, vocabulary_list = get_video_dataset()
 gloss_list_test=['gym', 'cry', 'football', 'have', 'fun']
 
-display_serie_gloss (gloss_list_test, video_df, vocabulary_list)
+display_serie_gloss (gloss_list_test, dataset, vocabulary_list)

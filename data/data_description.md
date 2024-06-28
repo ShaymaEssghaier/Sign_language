@@ -1,10 +1,10 @@
 # Sign_language
 
 Datasets links: 
-gloss to video : we use the file filtered_WLASL.csv that we build from the WLASL_v0.3.json avalaible on the github repositery https://github.com/dxli94/WLASL.
+gloss to video : we use the file filtered_WLASL_1999gloss.csv that we build from the WLASL_v0.3.json avalaible on the github repositery https://github.com/dxli94/WLASL.
 
-we adapt the downloading process of the video from this github repositery https://github.com/dxli94/WLASL, also.
-In the filtered dataset we build we didn't select youtube video, but here is the complete downloading process including for youtube video in case of we decide to add youtube videos from WLASL_v0.3.json dataset to filtered_WLASL.csv
+we adapt the downloading process of the videos from this github repositery https://github.com/dxli94/WLASL, also.
+In the filtered dataset we build we didn't select youtube video, but here is the complete downloading process including for youtube video in case of we decide to add youtube videos from WLASL_v0.3.json dataset to filtered_WLASL_1999gloss.csv
 
 Data Description
 gloss: str, data file is structured/categorised based on sign gloss, or namely, labels.

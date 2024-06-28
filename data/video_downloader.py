@@ -5,10 +5,9 @@ import sys
 import urllib.request
 from multiprocessing.dummy import Pool
 import pandas as pd
-
 import random
-
 import logging
+
 logging.basicConfig(filename='download_{}.log'.format(int(time.time())), filemode='w', level=logging.DEBUG)
 logging.getLogger().addHandler(logging.StreamHandler(sys.stdout))
 
@@ -75,9 +74,9 @@ def select_download_method(url):
         return download_others
 
 
-def download_nonyt_videos(indexfile, filtered_dataset, saveto='raw_videos'):
+def download_nonyt_videos(indexfile, filtered_dataset='src/filtered_WLASL_1999gloss', saveto='raw_videos'):
     content = json.load(open(indexfile))
-    df_video_to_download = pd.read_csv(filtered_dataset, delimiter=';')
+    df_video_to_download = pd.read_csv(filtered_dataset, dtype={'video_id': str})
 
     if not os.path.exists(saveto):
         os.mkdir(saveto)
@@ -92,7 +91,7 @@ def download_nonyt_videos(indexfile, filtered_dataset, saveto='raw_videos'):
             video_id = inst['video_id']
             
             # check if the video is part of the filtered_dataset (video we want to download)
-            if int(video_id) not in df_video_to_download['video_id'].values:
+            if video_id not in df_video_to_download['video_id'].values:
                 continue
             logging.info('gloss: {}, video: {}.'.format(gloss, video_id))
 
@@ -114,9 +113,9 @@ def check_youtube_dl_version():
     assert ver, f"{youtube_downloader} cannot be found in PATH. Please verify your installation."
 
 
-def download_yt_videos(indexfile, filtered_dataset, saveto='raw_videos'):
+def download_yt_videos(indexfile, filtered_dataset='src/filtered_WLASL_1999gloss', saveto='raw_videos'):
     content = json.load(open(indexfile))
-    df_video_to_download = pd.read_csv(filtered_dataset, delimiter=';')
+    df_video_to_download = pd.read_csv(filtered_dataset, dtype={'video_id': str})
     
     if not os.path.exists(saveto):
         os.mkdir(saveto)
@@ -130,10 +129,7 @@ def download_yt_videos(indexfile, filtered_dataset, saveto='raw_videos'):
             video_id = inst['video_id']
 
             # check if the video is part of the filtered_dataset (video we want to download)
-            if int(video_id) not in df_video_to_download['video_id'].values:
-                continue
-
-            if video_id in df_video_to_download['video_id']:
+            if video_id not in df_video_to_download['video_id'].values:
                 continue
 
             if 'youtube' not in video_url and 'youtu.be' not in video_url:
@@ -160,9 +156,9 @@ def download_yt_videos(indexfile, filtered_dataset, saveto='raw_videos'):
 
 if __name__ == '__main__':
     logging.info('Start downloading non-youtube videos.')
-    download_nonyt_videos('WLASL_v0.3.json', 'filtered_WLASL.csv')
+    download_nonyt_videos('src/WLASL_v0.3.json', 'src/filtered_WLASL_1999gloss')
 
     check_youtube_dl_version()
     logging.info('Start downloading youtube videos.')
-    download_yt_videos('WLASL_v0.3.json', 'filtered_WLASL.csv')
+    download_yt_videos('src/WLASL_v0.3.json', 'src/filtered_WLASL_1999gloss')
 
