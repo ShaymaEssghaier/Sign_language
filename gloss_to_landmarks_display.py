@@ -280,7 +280,7 @@ def display_serie_gloss (gloss_list):
     cv2.destroyAllWindows()
 
 
-gloss_list=['far', 'cafeteria']
+gloss_list=['a', 'a lot', 'abdomen', 'accent', 'active']
 
 display_serie_gloss (gloss_list)
 

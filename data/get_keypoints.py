@@ -259,7 +259,7 @@ def save_keypoints_to_json():
 
     # Create json_file of landmark for each video of the dataset
     for _ , row in data.iterrows():
-        video_path = os.path.join('..', row['video_path'])
+        video_path = row['video_path']
         video_id = row['video_id']
         filepath = os.path.join('video_landmarks', video_id)
         # check if .json file with video_id already exist in video_landmarks folder

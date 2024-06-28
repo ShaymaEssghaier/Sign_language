@@ -13,7 +13,7 @@ def update_video_path():
             video_id = file.split('.')[0]
             data.loc[data['video_id'] == video_id, 'video_path'] = os.path.join('raw_videos', file)
         data.reset_index(drop=True)
-        data.to_csv('local_dataset')
+        data.to_csv('local_dataset', index=False)
 
 def update_video_landmarks_path():
     '''
