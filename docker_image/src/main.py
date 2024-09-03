@@ -7,16 +7,15 @@ from flask import Flask,  render_template, Response, request
 #
 app = Flask(__name__)
 
+# ---- Initialise data
+#
+nlp, dict_docs_spacy = sp.load_spacy_values()
+dataset, list_2000_tokens = dg.load_data()
+
 # ---- Render the homepage template
 #
 @app.route('/')
 def index():
-    # ---- Load all data
-    #
-    global dataset, list_2000_tokens, nlp, dict_docs_spacy
-
-    dataset, list_2000_tokens = dg.load_data()
-    nlp, dict_docs_spacy = sp.load_spacy_values()
 
     return render_template('index.html')
 

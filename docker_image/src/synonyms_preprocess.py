@@ -3,18 +3,19 @@ import pickle
 from nltk.corpus import wordnet
 
 
-def load_spacy_values(filepath_model_spacy='model_spacy_synonyms', filepath_docs_spacy = 'dict_spacy_object.pkl'):
+def load_spacy_values(model = "en_core_web_md", filepath_docs_spacy = 'dict_spacy_object.pkl'):
     '''
-    Loads a spaCy model and a dictionary of spaCy Doc objects from a pickle file.
+    Loads a spaCy language model and a dictionary of spaCy Doc objects from a pickle file.
 
     Parameters
     ----------
-    filepath_model_spacy : str
-        The local path to the spaCy model used for synonym detection.
+    model : str
+        The name or local path of the spaCy model to be loaded for processing text. 
+        For example, "en_core_web_sm" or a custom model path.
 
     filepath_docs_spacy : str
-        The local path to the pickle file containing a dictionary where the keys are tokens 
-        and the values are the corresponding spaCy Doc objects serialized as bytes.
+        The path to the pickle file containing a dictionary where the keys are tokens 
+        (strings) and the values are the corresponding serialized spaCy Doc objects.
 
     Returns
     -------
@@ -22,13 +23,13 @@ def load_spacy_values(filepath_model_spacy='model_spacy_synonyms', filepath_docs
         The loaded spaCy language model.
 
     dict_docs_spacy : dict
-        A dictionary where the keys are tokens (str) and the values are spaCy Doc objects, 
-        reconstructed from the serialized bytes.
+        A dictionary where the keys are tokens (strings) and the values are spaCy Doc 
+        objects reconstructed from the serialized bytes stored in the pickle file.
     '''
     
     # ---- Load the spaCy NLP model
     #
-    nlp = spacy.load(filepath_model_spacy)
+    nlp = spacy.load(model)
     
     # ---- Load pickle file and reconstruct the dictionary with tokens as keys and spaCy Doc objects as values
     #
