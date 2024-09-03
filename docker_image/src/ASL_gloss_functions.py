@@ -45,12 +45,16 @@ def skip_stop_words(word):
 
 ## doc est une liste de tokens
 def question_type(doc):
-    if doc[-1].text == '?':
-        if doc[0].text.lower() in opened_question_adverbs:
-            return "wh-question"
-        else:
-            return "yes-no-question"
-    return None
+    try:
+        if doc[-1].text == '?':
+            if doc[0].text.lower() in opened_question_adverbs:
+                return "wh-question"
+            else:
+                return "yes-no-question"
+        return None
+    
+    except IndexError:
+        return None
 
 # add question id as a prefix
 def process_sentence(doc):
