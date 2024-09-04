@@ -9,9 +9,11 @@ RUN apt-get update && \
 COPY requirements.txt /
 RUN pip install --no-cache-dir -r requirements.txt
 
-# Will execute nltk.download('wordnet')
-COPY post_install.py .
-RUN python post_install.py
+# Download the spaCy model
+RUN python -m spacy download en_core_web_md
+
+# Download NLTK data
+RUN [ "python", "-c", "import nltk; nltk.download('wordnet', download_dir='/usr/local/nltk_data')" ]
 
 # Copy the code files
 COPY src /
