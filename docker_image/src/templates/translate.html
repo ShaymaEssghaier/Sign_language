@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin: 50px auto;
+            width: 80%;
+        }
+        .header {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        video {
+            width: 640px;
+            height: 480px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .footer {
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <!--
+        <div class="header clearfix">
+            <h3 class="text-muted"> American Sign Langage Translation - Flask Demo</h3>
+        </div>
+        -->
+        <div class="jumbotron">
+            <h1>Text to American Sign Langage translator - Flask Demo</h1>
+        </div>
+        <form action="{{ url_for('result') }}" method="post">
+            <div class="form-group row">
+                <label for="inputSentence" class="col-sm-3 col-form-label">Put your text to translate here</label>
+                <div class="col-sm-8">
+                 <input type="text" class="form-control" id="inputSentence" name="inputSentence" placeholder="text to translate">
+                </div>
+            </div>              
+            <div class="form-group row">
+                <div class="col-sm-5">
+                  <button type="submit" class="btn btn-primary">Translate</button>
+                </div>
+            </div>
+        </form>
+        <div class="container">
+            <div class="row">
+                <div class="col-8" style="background-color: lightblue;">
+                    Text to translate
+                </div>
+                <div class="col-4" style="background-color: lightgreen;">
+                    <div id="output" class="border p-2">
+                        {{ sentence }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-8" style="background-color: lightblue;">
+                    Text translation in gloss before synonyms:
+                </div>
+                <div class="col-4" style="background-color: lightgreen;">
+                    <div id="output" class="border p-2">
+                        {{ gloss_sentence_before_synonym }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-8" style="background-color: lightblue;">
+                    Text translation in gloss after synonyms:
+                </div>
+                <div class="col-4" style="background-color: lightgreen;">
+                    <div id="output" class="border p-2">
+                        {{ gloss_sentence_after_synonym }}
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="header">
+            <h3>Sign Langage Translation</h3>
+        </div>
+        <div class="video-container">
+            <img id="stream" data-gloss-sentence="{{ gloss_sentence_after_synonym }}" src="{{ url_for('video_feed', gloss_sentence_before_synonym=gloss_sentence_before_synonym, loss_sentence_after_synonym=gloss_sentence_after_synonym) }}" alt="Streaming video">
+        </div>
+        <script>
+            // Variable globale pour contrôler le rafraîchissement de l'image
+            var refresh = true;
+            // Fonction pour rafraîchir l'image toutes les 40ms (25 FPS)
+            function refreshImage() {
+              if (!refresh) return; // Arrête le rafraîchissement si la variable est définie sur false
+              var img = document.getElementById('stream');
+              var gloss_sentence_to_display = img.getAttribute('data-gloss-sentence'); // Récupère la phrase depuis l'attribut data-sentence
+              img.src = "{{ url_for('video_feed') }}" + "?gloss_sentence_to_display=" + encodeURIComponent(gloss_sentence_to_display) + "&t=" + new Date().getTime(); // Ajoute un paramètre de requête unique pour forcer le rafraîchissement de l'image
+              setTimeout(refreshImage, 40); // Appel récursif pour rafraîchir l'image
+              }
+                  // Démarrer le rafraîchissement de l'image
+                  refreshImage();
+        </script>
+        <button onclick="window.history.back()">Back</button>
+        <div class="footer">
+            © Sign Language Project
+        </div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Video Display</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f9fa;
+        }
+        .container {
+            margin: 50px auto;
+            width: 80%;
+        }
+        .header {
+            background-color: #e9ecef;
+            padding: 20px;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        .header h1 {
+            font-size: 24px;
+            margin: 0;
+        }
+        .video-container {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 20px;
+        }
+        video {
+            width: 640px;
+            height: 480px;
+            border: 2px solid #dee2e6;
+            border-radius: 5px;
+        }
+        .footer {
+            font-size: 14px;
+            color: #6c757d;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header clearfix">
+            <h3 class="text-muted">American Sign Langage Translation- Flask Demo</h3>
+          </div>
+    
+          <div class="jumbotron">
+            <h1>Text to Sign Langage translator</h1>
+          </div>
+          <form action="{{ url_for('result') }}" method="post">
+              <div class="form-group row">
+                <label for="inputSentence" class="col-sm-3 col-form-label">Put your text to translate here</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="inputSentence" name="inputSentence" placeholder="text to translate">
+                </div>
+              </div>              
+              <div class="form-group row">
+                <div class="col-sm-5">
+                  <button type="submit" class="btn btn-primary">Translate</button>
+                </div>
+              </div>
+            </form>
+            <div class="footer">
+                © Sign Language Project
+            </div>
+    </div>
+</body>
+</html>
