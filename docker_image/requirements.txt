@@ -3,7 +3,7 @@ opencv-python==4.10.0.84
 numpy==1.26.4
 pandas==2.2.2
 Flask==3.0.3
-gunicorn==21.2.0
+gunicorn==22.0.0
 spacy==3.7.5
 nltk==3.8.1
 scikit-learn==1.5.0
